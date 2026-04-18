@@ -2,14 +2,76 @@
 <html xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>My Java Site</title>
-
-    <!--Подключение CSS Bootstrap-->
+    <title>Форум для обсуждения</title>
     <link th:href="@{/webjars/bootstrap/5.3.8/css/bootstrap.min.css}" rel="stylesheet">
+    <style>
+        body { background-color: #f8f9fa; }
+        .card { transition: transform 0.2s; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+    </style>
 </head>
 <body>
 
-<!--Подключение JS Bootstrap-->
+<!--Панель для навигации и перемещению по сайту-->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="/">Forum</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item"><a class="nav-link" href="#">Разработка</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Дизайн</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Чат</a></li>
+            </ul>
+            <!--Это Пользователь с аутентификацией-->
+            <span class="navbar-text text-white me-3">Привет, <b th:text="${#authentication.name}">User</b></span>
+            <form th:action="@{/logout}" method="post">
+                <button class="btn btn-outline-light btn-sm" type="submit">Выйти</button>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<!--Основное тело сайта, весь контент который есть на странице-->
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <h2 class="mb-4">Лента публикаций</h2>
+            <div th:each="article : ${articles}" class="card mb-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <span class="badge bg-primary mb-2" th:text="${article.category.displayName}">Категория</span>
+                        <small class="text-muted" th:text="${#temporals.format(article.createdAt, 'dd.MM.yyyy HH:mm')}">Дата</small>
+                    </div>
+
+                    <h3 class="card-title h4" th:text="${article.title}">Заголовок статьи</h3>
+                    <p class="card-text text-secondary" th:text="${article.description}">Краткое описание статьи...</p>
+
+                    <div class="d-flex align-items-center mt-3">
+                        <div class="bg-secondary rounded-circle me-2" style="width: 30px; height: 30px;"></div>
+                        <span class="fw-bold" th:text="${article.author.userName}">Автор</span>
+                        <a href="#" class="btn btn-link ms-auto text-decoration-none">Читать далее →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Боковая панель-->
+        <div class="col-md-4">
+            <div class="card p-3 bg-white border-0 shadow-sm">
+                <h5>О проекте</h5>
+                <p class="small text-muted">Это Форум для обсуждения Технологий и связанного с ними</p>
+                <hr>
+                <h6>Популярные теги</h6>
+                <div class="d-flex flex-wrap gap-1">
+                    <span class="badge border text-dark">#java</span>
+                    <span class="badge border text-dark">#spring</span>
+                    <span class="badge border text-dark">#postgresql</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script th:src="@{/webjars/bootstrap/5.3.8/js/bootstrap.bundle.min.js}"></script>
 </body>
 </html>
