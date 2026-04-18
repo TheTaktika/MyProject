@@ -34,8 +34,8 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.boot:spring-boot-starter-websocket")
 	implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity6")
-	implementation("org.webjars:bootstrap")
-	implementation ("org.webjars:webjars-locator-core")
+	implementation("org.webjars:bootstrap:5.3.8")
+	implementation("org.webjars:webjars-locator-core:0.55")
 }
 
 tasks.withType<Test> {
