@@ -30,6 +30,12 @@ dependencies {
 	testCompileOnly("org.projectlombok:lombok")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 	testAnnotationProcessor("org.projectlombok:lombok")
+	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+	implementation("org.springframework.boot:spring-boot-starter-security")
+	implementation("org.springframework.boot:spring-boot-starter-websocket")
+	implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity6")
+	implementation("org.webjars:bootstrap")
+	implementation ("org.webjars:webjars-locator-core")
 }
 
 tasks.withType<Test> {
