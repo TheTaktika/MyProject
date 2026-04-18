@@ -23,10 +23,16 @@
                 <li class="nav-item"><a class="nav-link" href="#">Чат</a></li>
             </ul>
             <!--Это Пользователь с аутентификацией-->
+            <div class="navbar-nav ms-auto" th:if="${#authorization.expression('isAuthenticated()')}">
             <span class="navbar-text text-white me-3">Привет, <b th:text="${#authentication.name}">User</b></span>
             <form th:action="@{/logout}" method="post">
                 <button class="btn btn-outline-light btn-sm" type="submit">Выйти</button>
             </form>
+            </div>
+            <!--А это если нужно войти в аккаунт-->
+            <div class="navbar-nav ms-auto" th:unless="${#authorization.expression('isAuthenticated()')}">
+                <a class="btn btn-primary btn-sm" href="/login">Войти</a>
+            </div>
         </div>
     </div>
 </nav>
