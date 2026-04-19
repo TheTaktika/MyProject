@@ -26,5 +26,5 @@ public class User {
     private String password;
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<ArticleDto> articles;
+    private List<Article> articles;
 }

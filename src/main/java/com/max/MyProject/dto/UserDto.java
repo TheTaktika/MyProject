@@ -1,5 +1,6 @@
 package com.max.MyProject.dto;
 
+import com.max.MyProject.entities.Article;
 import lombok.*;
 
 import java.util.List;
@@ -10,12 +11,9 @@ import java.util.List;
 @AllArgsConstructor
 public class UserDto {
 
-    @NonNull
     private long id;
 
-    @NonNull
     private String userName;
 
-    @NonNull
-    private List<ArticleDto> articles;
+    private List<Article> articles;
 }

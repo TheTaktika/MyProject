@@ -8,9 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 public class UserShortDto {
 
-    @NonNull
     private long id;
 
-    @NonNull
     private String userName;
 }

@@ -11,17 +11,13 @@ import java.time.Instant;
 @NoArgsConstructor
 public class MessageDto {
 
-    @NonNull
     private long id;
 
-    @NonNull
     @JsonProperty("author_id")
     private UserShortDto author;
 
-    @NonNull
     @JsonProperty("created_at")
     private Instant createdAt;
 
-    @NonNull
     private String text;
 }

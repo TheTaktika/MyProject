@@ -12,23 +12,17 @@ import java.time.Instant;
 @NoArgsConstructor
 public class ArticleDto {
 
-    @NonNull
     private long id;
 
-    @NonNull
     private String title;
 
-    @NonNull
     private String description;
 
-    @NonNull
     @JsonProperty("author_id")
     private UserShortDto author;
 
-    @NonNull
     @JsonProperty("created_at")
     private Instant createdAt;
 
-    @NonNull
     private Category category;
 }

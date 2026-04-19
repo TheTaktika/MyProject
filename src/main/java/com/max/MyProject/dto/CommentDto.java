@@ -11,20 +11,15 @@ import java.time.Instant;
 @NoArgsConstructor
 public class CommentDto {
 
-    @NonNull
     private long id;
 
-    @NonNull
     @JsonProperty("author_id")
     private UserShortDto author;
 
-    @NonNull
     @JsonProperty("created_at")
     private Instant createdAt;
 
-    @NonNull
     private String text;
 
-    @NonNull
     private long articleId;
 }
