@@ -1,7 +1,10 @@
 package com.max.MyProject.entities;
 
+import com.max.MyProject.dto.ArticleDto;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -22,4 +25,6 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<ArticleDto> articles;
 }
