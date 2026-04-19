@@ -4,11 +4,9 @@ import com.max.MyProject.dto.ArticleDto;
 import com.max.MyProject.entities.Article;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
-@Transactional
 public class ArticleMapper {
 
     private final UserMapper userMapper;
