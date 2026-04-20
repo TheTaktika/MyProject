@@ -19,8 +19,8 @@ public class DataInitializer implements CommandLineRunner {
     public void run(String... args) throws Exception {
         if (userRepository.count() == 0) {
             User admin = User.builder()
-                    .userName("admin")
-                    .password("12345")
+                    .username("admin")
+                    .password("{noop}admin")
                     .build();
             userRepository.save(admin);
 

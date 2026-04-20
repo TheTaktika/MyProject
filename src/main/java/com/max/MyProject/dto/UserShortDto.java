@@ -10,5 +10,5 @@ public class UserShortDto {
 
     private long id;
 
-    private String userName;
+    private String username;
 }

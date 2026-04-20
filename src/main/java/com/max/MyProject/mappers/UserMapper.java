@@ -11,27 +11,27 @@ public class UserMapper {
     public UserDto toDto(User user) {
         return UserDto.builder()
                 .id(user.getId())
-                .userName(user.getUserName())
+                .username(user.getUsername())
                 .articles(user.getArticles())
                 .build();
     }
     public User toEntity(UserDto dto) {
         return User.builder()
                 .id(dto.getId())
-                .userName(dto.getUserName())
+                .username(dto.getUsername())
                 .articles(dto.getArticles())
                 .build();
     }
     public UserShortDto toShortDto(User user) {
         return UserShortDto.builder()
                 .id(user.getId())
-                .userName(user.getUserName())
+                .username(user.getUsername())
                 .build();
     }
     public User toEntityFromShort(UserShortDto dto) {
         return User.builder()
                 .id(dto.getId())
-                .userName(dto.getUserName())
+                .username(dto.getUsername())
                 .build();
     }
 }

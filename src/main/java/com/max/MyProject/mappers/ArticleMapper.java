@@ -28,8 +28,6 @@ public class ArticleMapper {
                 .id(dto.getId())
                 .title(dto.getTitle())
                 .description(dto.getDescription())
-                .author(userMapper.toEntityFromShort(dto.getAuthor()))
-                .createdAt(dto.getCreatedAt())
                 .category(dto.getCategory())
                 .build();
     }
