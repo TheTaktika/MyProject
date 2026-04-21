@@ -27,4 +27,6 @@ public class User {
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Article> articles;
+
+    private String roles;
 }

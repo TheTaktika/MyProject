@@ -12,6 +12,7 @@ public class UserMapper {
         return UserDto.builder()
                 .id(user.getId())
                 .username(user.getUsername())
+                .password(user.getPassword())
                 .articles(user.getArticles())
                 .build();
     }
@@ -19,6 +20,7 @@ public class UserMapper {
         return User.builder()
                 .id(dto.getId())
                 .username(dto.getUsername())
+                .password(dto.getPassword())
                 .articles(dto.getArticles())
                 .build();
     }

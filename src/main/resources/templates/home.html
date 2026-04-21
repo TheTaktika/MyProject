@@ -2,7 +2,7 @@
 <html xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Форум для обсуждения</title>
+    <title>Forum</title>
     <link th:href="@{/webjars/bootstrap/5.3.8/css/bootstrap.min.css}" rel="stylesheet">
     <style>
         body { background-color: #f8f9fa; }
@@ -31,6 +31,7 @@
             </div>
             <!--А это если нужно войти в аккаунт-->
             <div class="navbar-nav ms-auto" th:unless="${#authorization.expression('isAuthenticated()')}">
+                <a class="btn btn-outline-light btn-sm me-2" href="/signup">Регистрация</a>
                 <a class="btn btn-primary btn-sm" href="/login">Войти</a>
             </div>
         </div>
