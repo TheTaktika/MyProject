@@ -57,13 +57,19 @@
                         <small class="text-muted" th:text="${#temporals.format(article.createdAt, 'dd.MM.yyyy HH:mm')}">Дата</small>
                     </div>
 
-                    <h3 class="card-title h4" th:text="${article.title}">Заголовок статьи</h3>
-                    <p class="card-text text-secondary" th:text="${article.description}">Краткое описание статьи...</p>
+                    <h3 class="card-title h4">
+                        <a th:href="@{/articles/{id}(id=${article.id})}"
+                           th:text="${article.title}"
+                           class="text-decoration-none text-dark">Заголовок статьи</a>
+                    </h3>
+                    <p class="card-text text-secondary"
+                       th:text="${#strings.abbreviate(article.description, 150)}">Краткое описание...</p>
 
                     <div class="d-flex align-items-center mt-3">
                         <div class="bg-secondary rounded-circle me-2" style="width: 30px; height: 30px;"></div>
                         <span class="fw-bold" th:text="${article.author.username}">Автор</span>
-                        <a href="#" class="btn btn-link ms-auto text-decoration-none">Читать далее →</a>
+                        <a th:href="@{/articles/{id}(id=${article.id})}"
+                           class="btn btn-link ms-auto text-decoration-none stretched-link">Читать далее →</a>
                     </div>
                 </div>
             </div>

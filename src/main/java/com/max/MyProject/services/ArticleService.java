@@ -37,7 +37,7 @@ public class ArticleService {
         return articleMapper.toDto(savedArticle);
     }
     @Transactional
-    public ArticleDto updateArticle(Long id, ArticleDto dto) {
+    public ArticleDto updateArticle(long id, ArticleDto dto) {
         Article article = articleRepository.findById(id)
                 .orElseThrow(()-> new EntityNotFoundException("Статья не найдена"));
         article.setTitle(dto.getTitle());
@@ -45,5 +45,10 @@ public class ArticleService {
         article.setCategory(dto.getCategory());
         Article updatedArticle = articleRepository.save(article);
         return articleMapper.toDto(updatedArticle);
+    }
+    public ArticleDto findArticle (long id) {
+        Article article = articleRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Статья не найдена"));
+        return articleMapper.toDto(article);
     }
 }

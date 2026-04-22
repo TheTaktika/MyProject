@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${articleDto.title}">Статья</title>
+    <link th:href="@{/webjars/bootstrap/5.3.8/css/bootstrap.min.css}" rel="stylesheet">
+    <style>
+        body { background-color: #f8f9fa; }
+        .article-container { background: white; border-radius: 10px; padding: 30px; }
+        .article-content { line-height: 1.6; white-space: pre-wrap; }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="/">Forum</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item"><a class="nav-link" href="/">Главная</a></li>
+            </ul>
+            <div class="navbar-nav ms-auto" th:if="${#authorization.expression('isAuthenticated()')}">
+                <span class="navbar-text text-white me-3">Привет, <b th:text="${#authentication.name}">User</b></span>
+                <form th:action="@{/logout}" method="post">
+                    <button class="btn btn-outline-light btn-sm" type="submit">Выйти</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-9">
+
+            <div class="article-container shadow-sm">
+
+                <!-- РЕЖИМ ПРОСМОТРА -->
+                <div th:if="${!isEditing}">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div>
+                            <span class="badge bg-primary mb-2" th:text="${articleDto.category.displayName}">Категория</span>
+                            <h1 class="display-5 fw-bold" th:text="${articleDto.title}">Заголовок</h1>
+                        </div>
+                        <!-- Кнопка редактирования -->
+                        <a th:if="${#authorization.expression('isAuthenticated()')}"
+                           th:href="@{/articles/{id}/edit(id=${articleDto.id})}"
+                           class="btn btn-outline-secondary btn-sm">Редактировать</a>
+                    </div>
+
+                    <div class="d-flex align-items-center text-muted mb-4">
+                        <div class="bg-secondary rounded-circle me-2" style="width: 30px; height: 30px;"></div>
+                        <span class="fw-bold me-3" th:text="${articleDto.author.username}">Автор</span>
+                        <span th:text="${#temporals.format(articleDto.createdAt, 'dd.MM.yyyy HH:mm')}">Дата</span>
+                    </div>
+                    <hr>
+                    <div class="article-content fs-5" th:text="${articleDto.description}">Текст</div>
+                </div>
+
+                <!-- РЕЖИМ РЕДАКТИРОВАНИЯ -->
+                <div th:if="${isEditing}">
+                    <h2 class="mb-4">Редактирование</h2>
+                    <form th:action="@{/articles/{id}/update(id=${articleDto.id})}" th:object="${articleDto}" method="post">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Заголовок</label>
+                            <input type="text" class="form-control form-control-lg" th:field="*{title}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Категория</label>
+                            <select class="form-select" th:field="*{category}">
+                                <option th:each="cat : ${categories}" th:value="${cat}" th:text="${cat.displayName}"></option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Содержание</label>
+                            <textarea class="form-control" rows="10" th:field="*{description}" required></textarea>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-success px-4">Сохранить изменения</button>
+                            <a th:href="@{/articles/{id}(id=${articleDto.id})}" class="btn btn-light border">Отмена</a>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+            <!-- Блок комментариев -->
+            <div class="mt-5 p-4 border-top">
+                <h4>Комментарии</h4>
+                <p class="text-muted italic">Секция обсуждений появится здесь чуть позже...</p>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/webjars/bootstrap/5.3.8/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>
