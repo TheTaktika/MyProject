@@ -11,32 +11,7 @@
     </style>
 </head>
 <body>
-
-<!--Панель для навигации и перемещению по сайту-->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
-    <div class="container">
-        <a class="navbar-brand fw-bold" href="/">Forum</a>
-        <div class="collapse navbar-collapse">
-            <ul class="navbar-nav me-auto">
-                <li class="nav-item"><a class="nav-link" href="#">Разработка</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Дизайн</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Чат</a></li>
-            </ul>
-            <!--Это Пользователь с аутентификацией-->
-            <div class="navbar-nav ms-auto" th:if="${#authorization.expression('isAuthenticated()')}">
-            <span class="navbar-text text-white me-3">Привет, <b th:text="${#authentication.name}">User</b></span>
-            <form th:action="@{/logout}" method="post">
-                <button class="btn btn-outline-light btn-sm" type="submit">Выйти</button>
-            </form>
-            </div>
-            <!--А это если нужно войти в аккаунт-->
-            <div class="navbar-nav ms-auto" th:unless="${#authorization.expression('isAuthenticated()')}">
-                <a class="btn btn-outline-light btn-sm me-2" href="/signup">Регистрация</a>
-                <a class="btn btn-primary btn-sm" href="/login">Войти</a>
-            </div>
-        </div>
-    </div>
-</nav>
+<nav th:replace="~{fragments :: navbar}"></nav>
 
 <!--Основное тело сайта, весь контент который есть на странице-->
 <div class="container">

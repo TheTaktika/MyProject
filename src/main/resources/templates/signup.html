@@ -10,6 +10,7 @@
     </style>
 </head>
 <body class="bg-light">
+<nav th:replace="~{fragments :: navbar}"></nav>
 <div class="form-signup">
     <form th:action="@{/signup}" th:object="${userDto}" method="post">
         <h1 class="h3 mb-3 fw-normal text-center">Регистрация</h1>
