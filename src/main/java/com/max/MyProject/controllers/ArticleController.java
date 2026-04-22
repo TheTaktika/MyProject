@@ -1,20 +1,24 @@
 package com.max.MyProject.controllers;
 
 import com.max.MyProject.dto.ArticleDto;
+import com.max.MyProject.dto.CommentDto;
 import com.max.MyProject.entities.Article;
 import com.max.MyProject.entities.Category;
 import com.max.MyProject.services.ArticleService;
+import com.max.MyProject.services.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
 public class ArticleController {
     private final ArticleService articleService;
+    private final CommentService commentService;
 
     @GetMapping("/")
     public String homePage(Model model) {
@@ -37,6 +41,11 @@ public class ArticleController {
     public String showArticlePage(@PathVariable long id, Model model) {
         ArticleDto dto = articleService.findArticle(id);
         model.addAttribute("articleDto", dto);
+
+        List<CommentDto> comments = commentService.showComment(id);
+        model.addAttribute("comments", comments);
+        model.addAttribute("newComment", new CommentDto());
+
         model.addAttribute("isEditing", false);
         return "article-page";
     }
@@ -52,6 +61,14 @@ public class ArticleController {
     public String updateArticle(@PathVariable long id,
                                 @ModelAttribute("articleDto") ArticleDto dto) {
         articleService.updateArticle(id, dto);
+        return "redirect:/articles/"+id;
+    }
+    @PostMapping("/articles/{id}/comments")
+    public String newComment (@PathVariable long id,
+                              @ModelAttribute("newComment") CommentDto dto,
+                              Principal principal) {
+        String username = principal.getName();
+        commentService.saveComment(id, dto, username);
         return "redirect:/articles/"+id;
     }
 }
