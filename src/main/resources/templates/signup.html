@@ -2,30 +2,53 @@
 <html xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title></title>
+    <title>Регистрация</title>
     <link th:href="@{/webjars/bootstrap/5.3.8/css/bootstrap.min.css}" rel="stylesheet">
     <style>
-        body { background-color: #f8f9fa; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
-        .form-signup { width: 100%; max-width: 400px; padding: 15px; background: white; border: 1px solid #dee2e6; border-radius: 8px; }
+        body {
+            background-color: #f8f9fa;
+            margin: 0;
+        }
+        .page-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: calc(100vh - 72px); /* Высота экрана минус примерная высота навигации */
+        }
+        .form-signup {
+            width: 100%;
+            max-width: 400px;
+            padding: 25px;
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
     </style>
 </head>
 <body class="bg-light">
 <nav th:replace="~{fragments :: navbar}"></nav>
-<div class="form-signup">
-    <form th:action="@{/signup}" th:object="${userDto}" method="post">
-        <h1 class="h3 mb-3 fw-normal text-center">Регистрация</h1>
-        <div class="mb-3">
-            <label for="username" class="form-label">Логин</label>
-            <input type="text" th:field="*{username}" class="form-control" id="username" placeholder="Введите логин" required>
-        </div>
-        <div class="mb-3">
-            <label for="password" class="form-label">Пароль</label>
-            <input type="password" th:field="*{password}" class="form-control" id="password" placeholder="Введите пароль" required>
-        </div>
-        <button class="w-100 btn btn-lg btn-primary" type="submit">Зарегистрироваться</button>
-        <p class="mt-3 text-center text-muted">Уже есть аккаунт? <a href="/login">Войти</a></p>
-    </form>
+<div class="page-wrapper">
+    <div class="form-signup">
+        <form th:action="@{/signup}" th:object="${userDto}" method="post">
+            <h1 class="h3 mb-3 fw-normal text-center">Регистрация</h1>
+
+            <div class="mb-3">
+                <label for="username" class="form-label">Логин</label>
+                <input type="text" th:field="*{username}" class="form-control" id="username" placeholder="Введите логин" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="password" class="form-label">Пароль</label>
+                <input type="password" th:field="*{password}" class="form-control" id="password" placeholder="Введите пароль" required>
+            </div>
+
+            <button class="w-100 btn btn-lg btn-primary" type="submit">Зарегистрироваться</button>
+            <p class="mt-3 text-center text-muted">Уже есть аккаунт? <a href="/login">Войти</a></p>
+        </form>
+    </div>
 </div>
+
 <script th:src="@{/webjars/bootstrap/5.3.8/js/bootstrap.bundle.min.js}"></script>
 </body>
 </html>
