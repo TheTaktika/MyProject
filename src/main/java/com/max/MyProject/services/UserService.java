@@ -21,7 +21,7 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername (String username) throws UsernameNotFoundException {
         com.max.MyProject.entities.User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Пользователь не найден"));
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
         return org.springframework.security.core.userdetails.User.withUsername(user.getUsername())
                 .password(user.getPassword())
@@ -31,7 +31,7 @@ public class UserService implements UserDetailsService {
 
      public UserDto createUser (UserDto dto) {
         if (userRepository.existsByUsername(dto.getUsername())) {
-            throw new RuntimeException("Имя пользователя занято");
+            throw new RuntimeException("Username was already used");
         }
         User user = userMapper.toEntity(dto);
         user.setPassword(passwordEncoder.encode(dto.getPassword()));

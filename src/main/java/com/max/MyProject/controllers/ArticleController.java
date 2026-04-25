@@ -50,17 +50,29 @@ public class ArticleController {
         return "article-page";
     }
     @GetMapping("/articles/{id}/edit")
-    public String showEditForm(@PathVariable long id, Model model) {
-        model.addAttribute("articleDto",
-                articleService.findArticle(id));
+    public String showEditForm(@PathVariable long id,
+                               Model model,
+                               Principal principal) {
+
+        ArticleDto article = articleService.findArticle(id);
+        if (principal == null) {
+            return "redirect:/login";
+        }
+        if (!article.getAuthor().getUsername().equals(principal.getName())){
+            System.out.println("User: " + principal.getName());
+            System.out.println("Author: " + article.getAuthor().getUsername());
+            return "redirect:/articles/"+id;
+        }
+        model.addAttribute("articleDto", article);
         model.addAttribute("categories", Category.values());
         model.addAttribute("isEditing", true);
         return "article-page";
     }
     @PostMapping("/articles/{id}/update")
     public String updateArticle(@PathVariable long id,
-                                @ModelAttribute("articleDto") ArticleDto dto) {
-        articleService.updateArticle(id, dto);
+                                @ModelAttribute("articleDto") ArticleDto dto,
+                                Principal principal) {
+        articleService.updateArticle(id, dto, principal.getName());
         return "redirect:/articles/"+id;
     }
     @PostMapping("/articles/{id}/comments")

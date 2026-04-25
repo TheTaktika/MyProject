@@ -8,8 +8,7 @@ import lombok.Getter;
 public enum Category {
     DEVELOPMENT("Разработка и программирование"),
     HARDWARE("Аппаратное обеспечение"),
-    DESIGN("Дизайн"),
-    CHAT("Общий чат");
+    DESIGN("Дизайн");
 
     private final String displayName;
 

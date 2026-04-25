@@ -27,7 +27,7 @@
                             <h1 class="display-5 fw-bold" th:text="${articleDto.title}">Заголовок</h1>
                         </div>
                         <!-- Кнопка редактирования -->
-                        <a th:if="${#authorization.expression('isAuthenticated()')}"
+                        <a th:if="${#authentication.name == articleDto.author.username}"
                            th:href="@{/articles/{id}/edit(id=${articleDto.id})}"
                            class="btn btn-outline-secondary btn-sm">Редактировать</a>
                     </div>
@@ -42,7 +42,7 @@
                 </div>
 
                 <!-- РЕЖИМ РЕДАКТИРОВАНИЯ -->
-                <div th:if="${isEditing}">
+                <div th:if="${isEditing && #authentication.name == articleDto.author.username}">
                     <h2 class="mb-4">Редактирование</h2>
                     <form th:action="@{/articles/{id}/update(id=${articleDto.id})}" th:object="${articleDto}" method="post">
                         <div class="mb-3">
@@ -68,7 +68,7 @@
 
             </div>
             <!-- Блок комментариев -->
-            <div class="mt-5 p-4 border-top">
+            <div th:if="${!isEditing}" class="mt-5 p-4 border-top">
                 <h4>Комментарии (<span th:text="${comments.size()}">0</span>)</h4>
                 <!-- Форма добавления (только для залогиненных) -->
                 <div th:if="${#authorization.expression('isAuthenticated()')}" class="mb-4">

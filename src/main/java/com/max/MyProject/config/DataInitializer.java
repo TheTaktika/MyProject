@@ -20,7 +20,7 @@ public class DataInitializer implements CommandLineRunner {
         if (userRepository.count() == 0) {
             User admin = User.builder()
                     .username("admin")
-                    .password("{noop}admin")
+                    .password("admin")
                     .build();
             userRepository.save(admin);
 

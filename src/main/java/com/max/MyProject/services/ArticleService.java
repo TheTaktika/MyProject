@@ -11,6 +11,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.nio.file.AccessDeniedException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -30,16 +31,19 @@ public class ArticleService {
     @Transactional
     public ArticleDto createArticle(ArticleDto dto, String username){
         User author = userRepository.findByUsername(username)
-                .orElseThrow(() -> new EntityNotFoundException("Пользователь не найден"));
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
         Article article = articleMapper.toEntity(dto);
         article.setAuthor(author);
         Article savedArticle = articleRepository.save(article);
         return articleMapper.toDto(savedArticle);
     }
     @Transactional
-    public ArticleDto updateArticle(long id, ArticleDto dto) {
+    public ArticleDto updateArticle(long id, ArticleDto dto, String username) {
         Article article = articleRepository.findById(id)
-                .orElseThrow(()-> new EntityNotFoundException("Статья не найдена"));
+                .orElseThrow(()-> new EntityNotFoundException("Article not found"));
+        if (!article.getAuthor().getUsername().equals(username)){
+            throw new org.springframework.security.access.AccessDeniedException("You are not the author");
+        }
         article.setTitle(dto.getTitle());
         article.setDescription(dto.getDescription());
         article.setCategory(dto.getCategory());
@@ -48,7 +52,7 @@ public class ArticleService {
     }
     public ArticleDto findArticle (long id) {
         Article article = articleRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Статья не найдена"));
+                .orElseThrow(() -> new RuntimeException("Article not found"));
         return articleMapper.toDto(article);
     }
 }

@@ -29,10 +29,10 @@ public class CommentService {
     @Transactional
     public void saveComment(long articleId, CommentDto dto, String username) {
         User author = userRepository.findByUsername(username)
-                .orElseThrow(() -> new EntityNotFoundException("Пользователь не найден"));
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
 
         Article article = articleRepository.findById(articleId)
-                .orElseThrow(()-> new EntityNotFoundException("Статья не найдена"));
+                .orElseThrow(()-> new EntityNotFoundException("Article not found"));
 
         Comment comment = new Comment();
         comment.setText(dto.getText());
