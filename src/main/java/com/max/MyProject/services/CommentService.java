@@ -46,4 +46,13 @@ public class CommentService {
         return commentRepository.findByArticleId(id)
                 .stream().map(commentMapper::toDto).toList();
     }
+    @Transactional
+    public void deleteComment (long id, String username) {
+        Comment comment = commentRepository.findById(id)
+                .orElseThrow(()-> new EntityNotFoundException("Comment not found"));
+        if (!comment.getAuthor().getUsername().equals(username)){
+            throw new org.springframework.security.access.AccessDeniedException("You are not the author");
+        }
+        commentRepository.delete(comment);
+    }
 }

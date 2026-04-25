@@ -83,4 +83,24 @@ public class ArticleController {
         commentService.saveComment(id, dto, username);
         return "redirect:/articles/"+id;
     }
+    @PostMapping("/articles/{id}/delete")
+    public String deleteArticle (@PathVariable long id, Principal principal) {
+        if (principal == null) {
+            return "redirect:/login";
+        }
+        String username = principal.getName();
+        articleService.deleteArticle(id, username);
+        return "redirect:/";
+    }
+    @PostMapping("/articles/{id}/deleteComment")
+    public String deleteComment (@PathVariable long id,
+                                 @RequestParam long commentId,
+                                 Principal principal) {
+        if (principal == null) {
+            return "redirect:/login";
+        }
+        String username = principal.getName();
+        commentService.deleteComment(commentId, username);
+        return "redirect:/articles/"+id;
+    }
 }

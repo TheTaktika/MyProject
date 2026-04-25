@@ -55,4 +55,13 @@ public class ArticleService {
                 .orElseThrow(() -> new RuntimeException("Article not found"));
         return articleMapper.toDto(article);
     }
+    @Transactional
+    public void deleteArticle (long id, String username) {
+        Article article = articleRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Article not found"));
+        if (!article.getAuthor().getUsername().equals(username)){
+            throw new org.springframework.security.access.AccessDeniedException("You are not the author");
+        }
+        articleRepository.delete(article);
+    }
 }
