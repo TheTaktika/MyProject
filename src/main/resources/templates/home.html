@@ -50,18 +50,47 @@
             </div>
         </div>
 
-        <!-- Боковая панель-->
+        <!-- Боковая панель для поиска по фильтрам-->
         <div class="col-md-4">
             <div class="card p-3 bg-white border-0 shadow-sm">
-                <h5>О проекте</h5>
-                <p class="small text-muted">Это Форум для обсуждения Технологий и связанного с ними</p>
+                <h5>Фильтры</h5>
                 <hr>
-                <h6>Популярные теги</h6>
-                <div class="d-flex flex-wrap gap-1">
-                    <span class="badge border text-dark">#java</span>
-                    <span class="badge border text-dark">#spring</span>
-                    <span class="badge border text-dark">#postgresql</span>
-                </div>
+                <form th:action="@{/articles/filter}" method="get">
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Автор</label>
+                        <input type="text" name="author" class="form-control form-control-sm"
+                               placeholder="Имя автора" th:value="${param.author}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Период публикации</label>
+                        <div class="d-flex flex-column gap-2">
+                            <div class="input-group input-group-sm">
+                                <span class="input-group-text">С</span>
+                                <input type="date" name="dateAfter" class="form-control" th:value="${param.dateAfter}">
+                            </div>
+                            <div class="input-group input-group-sm">
+                                <span class="input-group-text">По</span>
+                                <input type="date" name="dateBefore" class="form-control" th:value="${param.dateBefore}">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Категория</label>
+                        <select name="category" class="form-select form-select-sm">
+                            <option value="">Все категории</option>
+                            <option th:each="cat : ${categories}"
+                                    th:value="${cat}"
+                                    th:text="${cat.displayName}"
+                                    th:selected="${cat.name() == param.category}"></option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-sm w-100">Применить фильтры</button>
+                    <a href="/" class="btn btn-link btn-sm w-100 mt-1 text-decoration-none text-muted">Сбросить всё</a>
+                </form>
             </div>
         </div>
     </div>

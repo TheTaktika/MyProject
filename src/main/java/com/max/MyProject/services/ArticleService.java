@@ -2,6 +2,7 @@ package com.max.MyProject.services;
 
 import com.max.MyProject.dto.ArticleDto;
 import com.max.MyProject.entities.Article;
+import com.max.MyProject.entities.Category;
 import com.max.MyProject.entities.User;
 import com.max.MyProject.mappers.ArticleMapper;
 import com.max.MyProject.repositories.ArticleRepository;
@@ -9,9 +10,14 @@ import com.max.MyProject.repositories.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.nio.file.AccessDeniedException;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -66,6 +72,36 @@ public class ArticleService {
     }
     public List<ArticleDto> searchArticles (String query) {
         return articleRepository.findByTitleContainingIgnoreCase(query)
+                .stream()
+                .map(articleMapper::toDto)
+                .collect(Collectors.toList());
+    }
+    public List<ArticleDto> getFilteredArticles (String author, String dateBefore,
+                                                 String dateAfter, String category) {
+        Specification<Article> spec = (root, query, cb) -> cb.conjunction();
+
+        if (author != null && !author.isBlank()) {
+            spec = spec.and((root, query, cb) ->
+                    cb.equal(root.get("author").get("username"),author));
+        }
+
+        if (dateAfter != null && !dateAfter.isBlank()) {
+            Instant start = LocalDate.parse(dateAfter).atStartOfDay(ZoneOffset.UTC).toInstant();
+            spec = spec.and((root, query, cb) ->
+                    cb.greaterThanOrEqualTo(root.get("createdAt"), start));
+        }
+        if (dateBefore != null && !dateBefore.isBlank()) {
+            Instant end = LocalDate.parse(dateBefore).atTime(LocalTime.MAX).atZone(ZoneOffset.UTC).toInstant();
+            spec = spec.and((root, query, cb) ->
+                    cb.lessThanOrEqualTo(root.get("createdAt"), end));
+        }
+
+        if (category != null && !category.isBlank()) {
+            spec = spec.and((root, query, cb) ->
+                    cb.equal(root.get("category"), Category.valueOf(category)));
+        }
+
+        return articleRepository.findAll(spec)
                 .stream()
                 .map(articleMapper::toDto)
                 .collect(Collectors.toList());

@@ -3,11 +3,10 @@ package com.max.MyProject.repositories;
 import com.max.MyProject.entities.Article;
 import com.max.MyProject.entities.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import java.util.List;
 
-public interface ArticleRepository extends JpaRepository<Article, Long> {
-    List<Article> findByCategory(Category category);
-    List<Article> findByAuthorId(Long authorId);
+public interface ArticleRepository extends JpaRepository<Article, Long>, JpaSpecificationExecutor<Article> {
     List<Article> findByTitleContainingIgnoreCase(String title);
 }

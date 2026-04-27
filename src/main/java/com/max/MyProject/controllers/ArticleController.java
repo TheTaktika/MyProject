@@ -23,6 +23,7 @@ public class ArticleController {
     @GetMapping("/")
     public String homePage(Model model) {
         model.addAttribute("articles", articleService.getAllArticles());
+        model.addAttribute("categories", Category.values());
         return "home";
     }
     @PostMapping("/articles/create")
@@ -115,6 +116,16 @@ public class ArticleController {
         }
         model.addAttribute("articles", articles);
         model.addAttribute("searchQuery", query);
+        return "search-results";
+    }
+    @GetMapping("/articles/filter")
+    public String filterArticles (@RequestParam(required = false) String author,
+                                  @RequestParam(required = false) String dateBefore,
+                                  @RequestParam(required = false) String dateAfter,
+                                  @RequestParam(required = false) String category,
+                                  Model model) {
+        model.addAttribute("articles", articleService.getFilteredArticles(author, dateBefore, dateAfter, category));
+        model.addAttribute("categories", Category.values());
         return "search-results";
     }
 }
