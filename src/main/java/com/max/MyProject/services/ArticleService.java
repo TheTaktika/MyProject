@@ -64,4 +64,10 @@ public class ArticleService {
         }
         articleRepository.delete(article);
     }
+    public List<ArticleDto> searchArticles (String query) {
+        return articleRepository.findByTitleContainingIgnoreCase(query)
+                .stream()
+                .map(articleMapper::toDto)
+                .collect(Collectors.toList());
+    }
 }

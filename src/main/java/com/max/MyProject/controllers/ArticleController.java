@@ -103,4 +103,18 @@ public class ArticleController {
         commentService.deleteComment(commentId, username);
         return "redirect:/articles/"+id;
     }
+    @GetMapping("articles/search")
+    public String search(@RequestParam (value = "query", required = false)
+                             String query, Model model) {
+        List<ArticleDto> articles;
+        if (query != null && !query.isEmpty()) {
+            articles = articleService.searchArticles(query);
+        }
+        else {
+            articles = articleService.getAllArticles();
+        }
+        model.addAttribute("articles", articles);
+        model.addAttribute("searchQuery", query);
+        return "search-results";
+    }
 }
