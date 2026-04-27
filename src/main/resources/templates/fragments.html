@@ -15,11 +15,6 @@
   <div class="container">
     <a class="navbar-brand fw-bold" href="/">Forum</a>
     <div class="collapse navbar-collapse">
-      <ul class="navbar-nav me-auto">
-        <li class="nav-item"><a class="nav-link" href="#">Разработка</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">Технологии</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">Дизайн</a></li>
-      </ul>
       <form th:action="@{/articles/search}" method="get" class="d-flex">
         <input class="form-control me-2" type="search" name="query"
                placeholder="Поиск статей..." th:value="${searchQuery}">
