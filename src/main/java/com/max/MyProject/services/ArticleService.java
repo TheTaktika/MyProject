@@ -4,6 +4,7 @@ import com.max.MyProject.dto.ArticleDto;
 import com.max.MyProject.entities.Article;
 import com.max.MyProject.entities.Category;
 import com.max.MyProject.entities.User;
+import com.max.MyProject.exceptions.ResourceNotFoundException;
 import com.max.MyProject.mappers.ArticleMapper;
 import com.max.MyProject.repositories.ArticleRepository;
 import com.max.MyProject.repositories.UserRepository;
@@ -37,7 +38,7 @@ public class ArticleService {
     @Transactional
     public ArticleDto createArticle(ArticleDto dto, String username){
         User author = userRepository.findByUsername(username)
-                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User " + username + " not found"));
         Article article = articleMapper.toEntity(dto);
         article.setAuthor(author);
         Article savedArticle = articleRepository.save(article);
@@ -46,7 +47,7 @@ public class ArticleService {
     @Transactional
     public ArticleDto updateArticle(long id, ArticleDto dto, String username) {
         Article article = articleRepository.findById(id)
-                .orElseThrow(()-> new EntityNotFoundException("Article not found"));
+                .orElseThrow(()-> new ResourceNotFoundException("Article " + dto.getTitle() + " not found"));
         if (!article.getAuthor().getUsername().equals(username)){
             throw new org.springframework.security.access.AccessDeniedException("You are not the author");
         }
